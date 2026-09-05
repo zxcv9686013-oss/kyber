@@ -1,52 +1,1110 @@
-<!doctype html>
+html
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Kyber — Downloads</title>
-  <style>
-    body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:48px auto;color:#222}
-    header{display:flex;align-items:center;gap:16px}
-    h1{margin:0}
-    .platform{margin:20px 0;padding:16px;border-radius:8px;background:#f7f7f7}
-    .btn{padding:12px 18px;border-radius:6px;border:none;background:#bbb;color:#fff;opacity:0.9;cursor:not-allowed}
-    .btn[disabled]{background:#9aa0a6;color:#fff;cursor:not-allowed}
-    .small{color:#666;font-size:0.95rem}
-    pre{background:#222;color:#eee;padding:12px;border-radius:6px;overflow:auto}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kyber — Heterogeneous Computing</title>
+
+<meta name="description"
+      content="Kyber is a modern programming language and compiler platform for heterogeneous computing.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #05070a;
+    color: #f4f7fb;
+    font-family:
+        Inter,
+        Segoe UI,
+        Arial,
+        sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+:root {
+    --cyan: #6ee7ff;
+    --purple: #8b7cff;
+    --muted: #8993a3;
+    --border: rgba(255,255,255,.10);
+    --panel: #0a0e14;
+}
+
+/* BACKGROUND */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(80,210,255,.13),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 100% 45%,
+            rgba(130,100,255,.10),
+            transparent 30%
+        ),
+        #05070a;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 50px 50px;
+}
+
+/* NAV */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+
+    height: 72px;
+
+    background: rgba(5,7,10,.75);
+    backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.nav {
+    width: min(1200px, calc(100% - 40px));
+    height: 100%;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: .18em;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-symbol {
+    width: 25px;
+    height: 25px;
+
+    border: 1px solid var(--cyan);
+
+    transform: rotate(45deg);
+
+    box-shadow:
+        0 0 20px rgba(110,231,255,.3);
+}
+
+.links {
+    display: flex;
+    gap: 30px;
+
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.links a:hover {
+    color: white;
+}
+
+.github {
+    padding: 9px 15px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    font-size: 13px;
+}
+
+.github:hover {
+    border-color: var(--cyan);
+}
+
+/* GENERAL */
+
+.container {
+    width: min(1200px, calc(100% - 40px));
+    margin: auto;
+}
+
+section {
+    padding: 125px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.label {
+    color: var(--cyan);
+
+    font-family: monospace;
+    font-size: 12px;
+
+    letter-spacing: .18em;
+    text-transform: uppercase;
+
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: .98;
+    letter-spacing: -.055em;
+}
+
+.description {
+    color: var(--muted);
+
+    max-width: 700px;
+
+    margin-top: 24px;
+
+    font-size: 18px;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 900px;
+
+    display: flex;
+    align-items: center;
+
+    padding-top: 120px;
+}
+
+.hero-content {
+    max-width: 1000px;
+}
+
+.badge {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 9px;
+
+    padding: 8px 13px;
+
+    border: 1px solid rgba(110,231,255,.25);
+    border-radius: 999px;
+
+    color: var(--cyan);
+
+    background: rgba(110,231,255,.035);
+
+    font-family: monospace;
+    font-size: 11px;
+
+    letter-spacing: .12em;
+    text-transform: uppercase;
+
+    margin-bottom: 30px;
+}
+
+.badge-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--cyan);
+
+    box-shadow:
+        0 0 14px var(--cyan);
+}
+
+.hero h1 {
+    font-size: clamp(80px, 15vw, 175px);
+
+    line-height: .78;
+
+    letter-spacing: -.09em;
+}
+
+.gradient {
+    background:
+        linear-gradient(
+            105deg,
+            white,
+            #a8f1ff 45%,
+            #9285ff
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+.hero-text {
+    max-width: 760px;
+
+    margin-top: 38px;
+
+    color: #aeb7c6;
+
+    font-size: clamp(18px, 2vw, 23px);
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 38px;
+}
+
+.button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 21px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        transform .2s,
+        border-color .2s,
+        box-shadow .2s;
+}
+
+.primary {
+    color: #05070a;
+    background: white;
+    border: 1px solid white;
+}
+
+.primary:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 40px rgba(255,255,255,.12);
+}
+
+.secondary {
+    border: 1px solid var(--border);
+}
+
+.secondary:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+
+.status {
+    display: flex;
+    gap: 35px;
+
+    margin-top: 70px;
+
+    color: #687385;
+
+    font-family: monospace;
+    font-size: 11px;
+}
+
+.status strong {
+    color: #cbd5e1;
+}
+
+/* ARCHITECTURE */
+
+.pipeline {
+    margin-top: 65px;
+
+    display: grid;
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    border: 1px solid var(--border);
+}
+
+.pipeline-item {
+    min-height: 220px;
+
+    padding: 27px;
+
+    border-right: 1px solid var(--border);
+}
+
+.pipeline-item:last-child {
+    border-right: none;
+}
+
+.pipeline-number {
+    color: var(--cyan);
+    font-family: monospace;
+    font-size: 11px;
+}
+
+.pipeline-item h3 {
+    margin-top: 65px;
+    font-size: 18px;
+}
+
+.pipeline-item p {
+    margin-top: 9px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+/* CODE */
+
+.code-layout {
+    margin-top: 65px;
+
+    display: grid;
+
+    grid-template-columns:
+        .8fr 1.2fr;
+
+    gap: 55px;
+
+    align-items: center;
+}
+
+.features {
+    margin-top: 35px;
+
+    display: grid;
+    gap: 18px;
+}
+
+.feature {
+    padding-left: 18px;
+
+    border-left: 2px solid var(--cyan);
+}
+
+.feature strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.feature span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.editor {
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: #030508;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.35);
+}
+
+.editor-bar {
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 15px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.circle {
+    width: 8px;
+    height: 8px;
+
+    margin-right: 7px;
+
+    border-radius: 50%;
+
+    background: #394150;
+}
+
+.filename {
+    margin-left: 10px;
+
+    color: #687385;
+
+    font-family: monospace;
+    font-size: 12px;
+}
+
+pre {
+    padding: 28px;
+
+    overflow-x: auto;
+
+    font-family:
+        Cascadia Code,
+        Consolas,
+        monospace;
+
+    font-size: 13px;
+
+    line-height: 1.85;
+
+    color: #cbd5e1;
+}
+
+.keyword {
+    color: #9b8cff;
+}
+
+.function {
+    color: var(--cyan);
+}
+
+.string {
+    color: #9ee493;
+}
+
+.comment {
+    color: #536070;
+}
+
+/* HARDWARE */
+
+.targets {
+    margin-top: 65px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    border: 1px solid var(--border);
+}
+
+.target {
+    min-height: 190px;
+
+    padding: 28px;
+
+    border-right: 1px solid var(--border);
+}
+
+.target:last-child {
+    border-right: none;
+}
+
+.target-code {
+    color: var(--cyan);
+
+    font-family: monospace;
+    font-size: 10px;
+}
+
+.target h3 {
+    margin-top: 45px;
+    font-size: 20px;
+}
+
+.target p {
+    margin-top: 8px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+/* INSTALL */
+
+.install-panel {
+    margin-top: 65px;
+
+    padding: 55px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 40px;
+
+    border: 1px solid rgba(110,231,255,.20);
+
+    background:
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(110,231,255,.08),
+            transparent 35%
+        ),
+        var(--panel);
+}
+
+.install-panel h3 {
+    font-size: 32px;
+    letter-spacing: -.04em;
+}
+
+.install-panel p {
+    margin-top: 8px;
+    color: var(--muted);
+}
+
+.command {
+    margin-top: 20px;
+
+    color: var(--cyan);
+
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.install-note {
+    margin-top: 12px;
+
+    color: #626d7d;
+
+    font-size: 12px;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 45px 0;
+}
+
+.footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 25px;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .links {
+        display: none;
+    }
+
+    .pipeline,
+    .targets {
+        grid-template-columns: 1fr;
+    }
+
+    .pipeline-item,
+    .target {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .pipeline-item:last-child,
+    .target:last-child {
+        border-bottom: none;
+    }
+
+    .code-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .install-panel {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        width: calc(100% - 28px);
+    }
+
+    section {
+        padding: 85px 0;
+    }
+
+    .hero {
+        min-height: 750px;
+    }
+
+    .hero h1 {
+        font-size: 78px;
+    }
+
+    .status {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .install-panel {
+        padding: 30px;
+    }
+
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>Kyber</h1>
-    <div class="small">Pre-built installers: not available yet</div>
-  </header>
 
-  <p>Official binaries for Windows, Linux and macOS are not published yet. The buttons below are intentionally disabled until releases are available.</p>
+<!-- NAVIGATION -->
 
-  <section class="platform">
-    <h2>Windows</h2>
-    <button class="btn" disabled>Download for Windows (Not available)</button>
-    <p class="small">If you need Kyber on Windows now, build from source (instructions below).</p>
-  </section>
+<nav>
+<div class="nav">
 
-  <section class="platform">
-    <h2>Linux</h2>
-    <button class="btn" disabled>Download for Linux (Not available)</button>
-    <p class="small">If you need Kyber on Linux now, build from source (instructions below).</p>
-  </section>
+    <a class="logo" href="#">
+        <span class="logo-symbol"></span>
+        KYBER
+    </a>
 
-  <section class="platform">
-    <h2>macOS</h2>
-    <button class="btn" disabled>Download for macOS (Not available)</button>
-    <p class="small">If you need Kyber on macOS now, build from source (instructions below).</p>
-  </section>
+    <div class="links">
+        <a href="#architecture">Architecture</a>
+        <a href="#language">Language</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#install">Install</a>
+    </div>
 
-  <h3>Build from source</h3>
-  <p class="small">Clone the repository and follow build steps. Example (replace <repo> with your repo URL):</p>
-  <pre>git clone https://github.com/yourusername/kyber.git
-cd kyber
-# follow project README build instructions (language/tooling may vary)</pre>
+    <a
+        class="github"
+        href="https://github.com/zxcv9686013-oss/kyber"
+        target="_blank"
+        rel="noopener"
+    >
+        GitHub ↗
+    </a>
 
-  <p class="small">Want me to create a GitHub repo and push these files? Reply and provide a GitHub repo URL or a token/permission method and I can push for you.</p>
+</div>
+</nav>
+
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="container">
+
+<div class="hero-content">
+
+    <div class="badge">
+        <span class="badge-dot"></span>
+        Heterogeneous Computing Platform
+    </div>
+
+    <h1>
+        <span class="gradient">KYBER</span>
+    </h1>
+
+    <p class="hero-text">
+        A modern programming language and compiler platform
+        designed to connect high-level software with
+        heterogeneous compute systems.
+    </p>
+
+    <div class="buttons">
+
+        <a
+            class="button primary"
+            href="https://github.com/zxcv9686013-oss/kyber/releases/latest"
+            target="_blank"
+            rel="noopener"
+        >
+            Install Kyber →
+        </a>
+
+        <a
+            class="button secondary"
+            href="https://github.com/zxcv9686013-oss/kyber"
+            target="_blank"
+            rel="noopener"
+        >
+            Explore Source
+        </a>
+
+    </div>
+
+    <div class="status">
+        <span>COMPILER <strong>READY</strong></span>
+        <span>LLVM <strong>BACKEND</strong></span>
+        <span>HETEROGENEOUS <strong>COMPUTE</strong></span>
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ARCHITECTURE -->
+
+<section id="architecture">
+
+<div class="container">
+
+    <div class="label">// 01 — Compiler Architecture</div>
+
+    <h2>
+        Source code<br>
+        to execution.
+    </h2>
+
+    <p class="description">
+        Kyber provides a unified compilation pipeline that
+        transforms source programs into intermediate
+        representations and specialized backend targets.
+    </p>
+
+    <div class="pipeline">
+
+        <div class="pipeline-item">
+            <div class="pipeline-number">01 / SOURCE</div>
+            <h3>Kyber</h3>
+            <p>
+                High-level source and project definitions.
+            </p>
+        </div>
+
+        <div class="pipeline-item">
+            <div class="pipeline-number">02 / FRONTEND</div>
+            <h3>Compiler</h3>
+            <p>
+                Lexer, parser, AST and semantic analysis.
+            </p>
+        </div>
+
+        <div class="pipeline-item">
+            <div class="pipeline-number">03 / IR</div>
+            <h3>LLVM IR</h3>
+            <p>
+                Intermediate representation and optimization.
+            </p>
+        </div>
+
+        <div class="pipeline-item">
+            <div class="pipeline-number">04 / BACKENDS</div>
+            <h3>Targets</h3>
+            <p>
+                Native, accelerator and assembly pipelines.
+            </p>
+        </div>
+
+        <div class="pipeline-item">
+            <div class="pipeline-number">05 / RUNTIME</div>
+            <h3>Execution</h3>
+            <p>
+                Linking, runtime and final execution.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- LANGUAGE -->
+
+<section id="language">
+
+<div class="container">
+
+    <div class="label">// 02 — Kyber Language</div>
+
+    <h2>
+        One environment.<br>
+        Multiple compute domains.
+    </h2>
+
+    <div class="code-layout">
+
+        <div>
+
+            <p class="description">
+                Kyber brings high-level programming and
+                low-level heterogeneous workflows into one
+                compiler environment.
+            </p>
+
+            <div class="features">
+
+                <div class="feature">
+                    <strong>Unified compilation</strong>
+                    <span>
+                        Build projects through a single Kyber toolchain.
+                    </span>
+                </div>
+
+                <div class="feature">
+                    <strong>Embedded workflows</strong>
+                    <span>
+                        Integrate C, C++, CUDA, XASM and specialized
+                        compute pipelines.
+                    </span>
+                </div>
+
+                <div class="feature">
+                    <strong>Native compiler pipeline</strong>
+                    <span>
+                        Lower programs through AST and LLVM-based
+                        intermediate representation.
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="editor">
+
+            <div class="editor-bar">
+
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+
+                <span class="filename">
+                    main.kyber
+                </span>
+
+            </div>
+
+<pre><code><span class="keyword">fn</span> <span class="function">main</span>() {
+
+    <span class="keyword">let</span> data =
+        <span class="function">load</span>(<span class="string">"dataset"</span>)
+
+    <span class="comment">// Kyber compute pipeline</span>
+
+    <span class="keyword">parallel</span> data {
+
+        <span class="function">transform</span>()
+        <span class="function">compute</span>()
+
+    }
+
+    <span class="function">print</span>(data)
+}</code></pre>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- HARDWARE -->
+
+<section id="hardware">
+
+<div class="container">
+
+    <div class="label">// 03 — Compute Targets</div>
+
+    <h2>
+        Designed for<br>
+        heterogeneous hardware.
+    </h2>
+
+    <p class="description">
+        Kyber is built around a multi-backend architecture
+        capable of connecting different classes of processors
+        and specialized execution systems.
+    </p>
+
+    <div class="targets">
+
+        <div class="target">
+            <div class="target-code">TARGET / CPU</div>
+            <h3>CPU</h3>
+            <p>
+                General-purpose native execution.
+            </p>
+        </div>
+
+        <div class="target">
+            <div class="target-code">TARGET / GPU</div>
+            <h3>GPU</h3>
+            <p>
+                Parallel accelerator workloads.
+            </p>
+        </div>
+
+        <div class="target">
+            <div class="target-code">TARGET / TPU</div>
+            <h3>TPU</h3>
+            <p>
+                Specialized tensor computation.
+            </p>
+        </div>
+
+        <div class="target">
+            <div class="target-code">TARGET / NPU</div>
+            <h3>NPU</h3>
+            <p>
+                Neural and AI acceleration.
+            </p>
+        </div>
+
+        <div class="target">
+            <div class="target-code">TARGET / XASM</div>
+            <h3>XASM</h3>
+            <p>
+                Low-level heterogeneous assembly.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- INSTALL -->
+
+<section id="install">
+
+<div class="container">
+
+    <div class="label">// 04 — Installation</div>
+
+    <h2>
+        Start building<br>
+        with Kyber.
+    </h2>
+
+    <div class="install-panel">
+
+        <div>
+
+            <h3>Kyber Toolchain</h3>
+
+            <p>
+                Download the latest Kyber release and
+                install the complete development environment.
+            </p>
+
+            <div class="command">
+                &gt; kyberc build yourfile.kyber
+            </div>
+
+            <div class="install-note">
+                Windows installer and release packages are
+                distributed through GitHub Releases.
+            </div>
+
+        </div>
+
+        <a
+            class="button primary"
+            href="https://github.com/zxcv9686013-oss/kyber/releases/latest"
+            target="_blank"
+            rel="noopener"
+        >
+            INSTALL KYBER
+        </a>
+
+    </div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="container footer">
+
+    <div>
+        KYBER © 2026
+    </div>
+
+    <div class="footer-links">
+
+        <a
+            href="https://github.com/zxcv9686013-oss/kyber"
+            target="_blank"
+            rel="noopener"
+        >
+            GitHub
+        </a>
+
+        <a href="#architecture">
+            Architecture
+        </a>
+
+        <a href="#install">
+            Install
+        </a>
+
+    </div>
+
+</div>
+
+</footer>
+
 </body>
 </html>
+
