@@ -1,0 +1,10 @@
+﻿graph test_net
+    input  float32[1,3,8,8] image
+    output float32[1,10] scores
+
+    conv2d image -> feat filters=8 kernel=3 stride=1 padding=1
+    relu feat -> feat_r
+    flatten feat_r -> flat
+    gemm flat -> scores units=10
+    softmax scores -> scores
+end

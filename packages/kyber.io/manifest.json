@@ -1,0 +1,7 @@
+{
+    "name": "kyber.io",
+    "version": "1.0.0",
+    "description": "Kyber standard I/O library - file, console, args",
+    "author": "Kyber",
+    "dependencies": []
+}

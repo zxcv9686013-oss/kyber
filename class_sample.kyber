@@ -1,0 +1,10 @@
+class Person {
+    let name
+    let age
+
+    fn greet() {
+        print("hello")
+    }
+}
+
+let p = new Person()

@@ -1,0 +1,319 @@
+cmake_minimum_required(VERSION 3.20)
+
+# ============================================================
+# Kyber Build System
+# ============================================================
+
+project(KyberProject NONE)
+
+# ============================================================
+# Kyber root
+# ============================================================
+
+set(KYBER_ROOT
+    "${CMAKE_SOURCE_DIR}"
+)
+
+set(KYBER_PROJECT_ROOT
+    "${CMAKE_SOURCE_DIR}"
+)
+
+# ============================================================
+# Load Kyber toolchain
+# ============================================================
+
+include(
+    "${KYBER_ROOT}/cyber/cmake/KyberCompiler.cmake"
+)
+
+# ============================================================
+# Find project source files
+# ============================================================
+
+include(
+    "${KYBER_ROOT}/cyber/cmake/KyberSources.cmake"
+)
+
+# ============================================================
+# Build directory for generated objects
+# ============================================================
+
+set(KYBER_BUILD_OBJ_DIR
+    "${CMAKE_BINARY_DIR}/.obj"
+)
+
+file(
+    MAKE_DIRECTORY
+    "${KYBER_BUILD_OBJ_DIR}"
+)
+
+# ============================================================
+# KYBER SOURCES
+#
+# .kyber
+#    ↓
+# kyberc
+#    ↓
+# .obj
+# ============================================================
+
+set(KYBER_OBJECTS)
+
+foreach(SOURCE ${KYBER_SOURCES})
+
+    get_filename_component(
+        NAME
+        "${SOURCE}"
+        NAME_WE
+    )
+
+    set(OBJECT
+        "${KYBER_BUILD_OBJ_DIR}/${NAME}.obj"
+    )
+
+    add_custom_command(
+        OUTPUT
+            "${OBJECT}"
+
+        COMMAND
+            "${KYBER_PYTHON}"
+            "${KYBERC}"
+            "${SOURCE}"
+            -o
+            "${OBJECT}"
+
+        DEPENDS
+            "${SOURCE}"
+            "${KYBERC}"
+
+        COMMENT
+            "KYBERC ${SOURCE}"
+
+        VERBATIM
+    )
+
+    list(
+        APPEND
+        KYBER_OBJECTS
+        "${OBJECT}"
+    )
+
+endforeach()
+
+# ============================================================
+# NINJA LANGUAGE
+#
+# .ninja
+#    ↓
+# Ninja-language compiler
+#    ↓
+# .obj
+# ============================================================
+
+set(NINJA_OBJECTS)
+
+foreach(SOURCE ${NINJA_LANGUAGE_SOURCES})
+
+    get_filename_component(
+        NAME
+        "${SOURCE}"
+        NAME_WE
+    )
+
+    set(OBJECT
+        "${KYBER_BUILD_OBJ_DIR}/${NAME}.obj"
+    )
+
+    add_custom_command(
+        OUTPUT
+            "${OBJECT}"
+
+        COMMAND
+            "${KYBER_PYTHON}"
+            "${NINJA_LANGUAGE_COMPILER}"
+            "${SOURCE}"
+            -o
+            "${OBJECT}"
+
+        DEPENDS
+            "${SOURCE}"
+            "${NINJA_LANGUAGE_COMPILER}"
+
+        COMMENT
+            "NINJA LANGUAGE ${SOURCE}"
+
+        VERBATIM
+    )
+
+    list(
+        APPEND
+        NINJA_OBJECTS
+        "${OBJECT}"
+    )
+
+endforeach()
+
+# ============================================================
+# C SOURCES
+# ============================================================
+
+set(C_OBJECTS)
+
+foreach(SOURCE ${C_SOURCES})
+
+    get_filename_component(
+        NAME
+        "${SOURCE}"
+        NAME_WE
+    )
+
+    set(OBJECT
+        "${KYBER_BUILD_OBJ_DIR}/${NAME}_c.obj"
+    )
+
+    add_custom_command(
+        OUTPUT
+            "${OBJECT}"
+
+        COMMAND
+            "${KYBER_CXX}"
+            -x
+            c
+            -c
+            "${SOURCE}"
+            -o
+            "${OBJECT}"
+
+        DEPENDS
+            "${SOURCE}"
+
+        COMMENT
+            "C ${SOURCE}"
+
+        VERBATIM
+    )
+
+    list(
+        APPEND
+        C_OBJECTS
+        "${OBJECT}"
+    )
+
+endforeach()
+
+# ============================================================
+# C++ SOURCES
+# ============================================================
+
+set(CXX_OBJECTS)
+
+foreach(SOURCE ${CXX_SOURCES})
+
+    get_filename_component(
+        NAME
+        "${SOURCE}"
+        NAME_WE
+    )
+
+    set(OBJECT
+        "${KYBER_BUILD_OBJ_DIR}/${NAME}_cpp.obj"
+    )
+
+    add_custom_command(
+        OUTPUT
+            "${OBJECT}"
+
+        COMMAND
+            "${KYBER_CXX}"
+            -c
+            "${SOURCE}"
+            -o
+            "${OBJECT}"
+
+        DEPENDS
+            "${SOURCE}"
+
+        COMMENT
+            "C++ ${SOURCE}"
+
+        VERBATIM
+    )
+
+    list(
+        APPEND
+        CXX_OBJECTS
+        "${OBJECT}"
+    )
+
+endforeach()
+
+# ============================================================
+# ALL OBJECT FILES
+# ============================================================
+
+set(KYBER_ALL_OBJECTS
+    ${KYBER_OBJECTS}
+    ${NINJA_OBJECTS}
+    ${C_OBJECTS}
+    ${CXX_OBJECTS}
+)
+
+# ============================================================
+# FINAL EXECUTABLE
+#
+# All .obj files
+#       ↓
+# kyber_linker.py
+#       ↓
+# program.exe
+# ============================================================
+
+set(KYBER_OUTPUT
+    "${CMAKE_BINARY_DIR}/KyberProject.exe"
+)
+
+add_custom_command(
+    OUTPUT
+        "${KYBER_OUTPUT}"
+
+    COMMAND
+        "${KYBER_PYTHON}"
+        "${KYBER_LINKER}"
+        ${KYBER_ALL_OBJECTS}
+        -o
+        "${KYBER_OUTPUT}"
+
+    DEPENDS
+        ${KYBER_ALL_OBJECTS}
+        "${KYBER_LINKER}"
+
+    COMMENT
+        "KYBER LINK → KyberProject.exe"
+
+    VERBATIM
+)
+
+# ============================================================
+# Main build target
+# ============================================================
+
+add_custom_target(
+    kyber_build
+    ALL
+    DEPENDS
+        "${KYBER_OUTPUT}"
+)
+
+# ============================================================
+# Information
+# ============================================================
+
+message(STATUS "")
+message(STATUS "======================================")
+message(STATUS "          KYBER BUILD SYSTEM")
+message(STATUS "======================================")
+message(STATUS "Project:     ${KYBER_PROJECT_ROOT}")
+message(STATUS "Objects:     ${KYBER_BUILD_OBJ_DIR}")
+message(STATUS "Output:      ${KYBER_OUTPUT}")
+message(STATUS "======================================")
+message(STATUS "")

@@ -1,0 +1,3 @@
+VOID MAIN() {
+    SCREEN.PRINT("hello from kyber")
+}

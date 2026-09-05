@@ -1,0 +1,38 @@
+{
+  "name": "Kyber",
+  "installer": "install.py",
+  "root": "C:\\Users\\Admin\\kyber (7)\\kyber",
+  "tools": {
+    "python": "C:\\Users\\Admin\\PyCharmMiscProject\\.venv\\Scripts\\python.exe",
+    "ninja": null,
+    "cmake": "C:\\Users\\Admin\\kyber (7)\\kyber\\cyber\\cmake\\bin\\bin\\cmake.EXE",
+    "clang": "C:\\Program Files\\LLVM\\bin\\clang++.EXE",
+    "nasm": "C:\\Users\\Admin\\kyber (7)\\kyber\\tools\\nasm\\nasm-2.16.03\\nasm.EXE",
+    "nvcc": "Y:\\bin\\nvcc.EXE"
+  },
+  "backends": {
+    "cuda": {
+      "root": "Y:\\",
+      "nvcc": "Y:\\bin\\nvcc.exe",
+      "available": true
+    },
+    "directml": {
+      "dll": "C:\\Windows\\System32\\DirectML.dll",
+      "available": true
+    },
+    "docker": {
+      "binary": null,
+      "available": false
+    },
+    "tpu": {
+      "root": null,
+      "library": null,
+      "available": false
+    },
+    "lpu": {
+      "root": null,
+      "library": null,
+      "available": false
+    }
+  }
+}

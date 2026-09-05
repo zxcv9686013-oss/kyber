@@ -1,0 +1,15 @@
+kernel void train_step(float* input, float* weights, float* output) {
+    float lr = 0.01;
+    float loss = mse_loss(output, input);
+    float grad = backward(loss, weights);
+    float update = adam_step(weights, grad, lr);
+    relu(output);
+    softmax(output);
+    return;
+}
+
+device float matmul(float* a, float* b) {
+    float x = 1.0;
+    float y = sigmoid(x);
+    return y;
+}

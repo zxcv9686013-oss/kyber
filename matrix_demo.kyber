@@ -1,0 +1,4 @@
+matrix A = [[1.0, 2.0], [3.0, 4.0]]
+matrix B = [[5.0, 6.0], [7.0, 8.0]]
+let C = add(A, B)
+let D = transpose(A)

@@ -1,0 +1,5 @@
+target gpu
+kernel void add_kernel(float* a, float* b, float* out) {
+    int i = threadIdx.x;
+    out[i] = a[i] + b[i];
+}

@@ -1,0 +1,140 @@
+#ifndef KYBER_FRONTEND_HPP
+#define KYBER_FRONTEND_HPP
+
+#include <algorithm>
+#include <cctype>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+namespace Kyber {
+
+namespace fs = std::filesystem;
+
+// ============================================================
+// Advanced Token System
+// ============================================================
+enum class TokenKind {
+    Identifier, Number, String, Keyword, Operator,
+    OpenParen, CloseParen, OpenBracket, CloseBracket, OpenBrace, CloseBrace,
+    Comma, Colon, Arrow, Newline, End
+};
+
+struct Token {
+    TokenKind kind;
+    std::string text;
+    size_t line;
+    size_t column;
+};
+
+// ============================================================
+// Upgraded Lexer Component
+// ============================================================
+class Lexer {
+private:
+    std::string source;
+    size_t pos = 0;
+    size_t line = 1;
+    size_t column = 1;
+
+    bool eof() const { return pos >= source.size(); }
+    char peek(size_t n = 0) const { return (pos + n >= source.size()) ? '\0' : source[pos + n]; }
+
+    char advance() {
+        if (eof()) return '\0';
+        char c = source[pos++];
+        if (c == '\n') { ++line; column = 1; }
+        else { ++column; }
+        return c;
+    }
+
+    void skipSpaces() {
+        while (!eof()) {
+            char c = peek();
+            if (c == ' ' || c == '\t' || c == '\r') { advance(); continue; }
+            if (c == '#') {
+                if (source.compare(pos, 7, "#extern") == 0) break;
+                if (source.compare(pos, 4, "#n8n") == 0) break;
+                while (!eof() && peek() != '\n') advance();
+                continue;
+            }
+            break;
+        }
+    }
+
+    Token identifier() {
+        size_t startLine = line; size_t startCol = column;
+        std::string text;
+        while (!eof()) {
+            char c = peek();
+            if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') text += advance();
+            else break;
+        }
+
+        static const std::unordered_set<std::string> keywords = {
+            "fn", "let", "tensor", "matrix", "layer", "target", "cpu", "gpu",
+            "return", "if", "else", "for", "in", "true", "false",
+            "Dense", "ReLU", "Conv", "Sigmoid", "Softmax",
+            "print", "input", "file", "open", "read", "write", "append", "close",
+            "try", "catch", "throw", "error", "extern", "cpp", "c", "include", "call"
+        };
+
+        TokenKind kind = keywords.count(text) ? TokenKind::Keyword : TokenKind::Identifier;
+        return {kind, text, startLine, startCol};
+    }
+
+    Token number() {
+        size_t startLine = line; size_t startCol = column;
+        std::string text; bool decimal = false;
+        while (!eof()) {
+            char c = peek();
+            if (std::isdigit(static_cast<unsigned char>(c))) { text += advance(); continue; }
+            if (c == '.' && !decimal) { decimal = true; text += advance(); continue; }
+            break;
+        }
+        return {TokenKind::Number, text, startLine, startCol};
+    }
+
+public:
+    explicit Lexer(std::string src) : source(std::move(src)) {}
+
+    std::vector<Token> tokenize() {
+        std::vector<Token> tokens;
+        while (!eof()) {
+            skipSpaces();
+            if (eof()) break;
+            char c = peek(); size_t tokenLine = line; size_t tokenColumn = column;
+
+            if (c == '\n') { advance(); tokens.push_back({TokenKind::Newline, "\\n", tokenLine, tokenColumn}); continue; }
+            if (std::isalpha(static_cast<unsigned char>(c)) || c == '_') { tokens.push_back(identifier()); continue; }
+            if (std::isdigit(static_cast<unsigned char>(c))) { tokens.push_back(number()); continue; }
+            if (c == '-' && peek(1) == '>') { advance(); advance(); tokens.push_back({TokenKind::Arrow, "->", tokenLine, tokenColumn}); continue; }
+            if (c == '=' || c == '+' || c == '-' || c == '*' || c == '/') {
+                std::string op(1, advance());
+                tokens.push_back({TokenKind::Operator, op, tokenLine, tokenColumn});
+                continue;
+            }
+
+            switch (c) {
+                case '(': advance(); tokens.push_back({TokenKind::OpenParen, "(", tokenLine, tokenColumn}); break;
+                case ')': advance(); tokens.push_back({TokenKind::CloseParen, ")", tokenLine, tokenColumn}); break;
+                case '[': advance(); tokens.push_back({TokenKind::OpenBracket, "[", tokenLine, tokenColumn}); break;
+                case ']': advance(); tokens.push_back({TokenKind::CloseBracket, "]", tokenLine, tokenColumn}); break;
+                case '{': advance(); tokens.push_back({TokenKind::OpenBrace, "{", tokenLine, tokenColumn}); break;
+                case '}': advance(); tokens.push_back({TokenKind::CloseBrace, "}", tokenLine, tokenColumn}); break;
+                case ',': advance(); tokens.push_back({TokenKind::Comma, ",", tokenLine, tokenColumn}); break;
+                case ':': advance(); tokens.push_back({TokenKind::Colon, ":", tokenLine, tokenColumn}); break;
+                default: advance(); break;
+            }
+        }
+        tokens.push_back({TokenKind::End, "", line, column});
+        return tokens;
+    }
+};
+
+} // namespace Kyber
+
+#endif // KYBER_FRONTEND_HPP

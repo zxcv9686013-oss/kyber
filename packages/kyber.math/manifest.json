@@ -1,0 +1,7 @@
+{
+    "name": "kyber.math",
+    "version": "1.0.0",
+    "description": "Kyber standard math library - neural network ops, linear algebra, activations",
+    "author": "Kyber",
+    "dependencies": []
+}
